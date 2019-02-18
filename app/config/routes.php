@@ -8,6 +8,12 @@ $router->add(
 	]
 );
 $router->add(
+	"/arrival/", [
+		"controller" => 'index',
+		"action"     => 'arrival'
+	]
+);
+$router->add(
 	"/expend/",[
 		"controller"=>'expend'
 	]

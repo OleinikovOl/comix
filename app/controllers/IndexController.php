@@ -57,9 +57,6 @@ class IndexController extends ControllerBase
 				}
 				$arrival->col = $arrival->col + $col; 
 				$arrival->update();
-
-				
-				
 				$this->response->redirect('/');
 			} 
 			else
@@ -71,7 +68,6 @@ class IndexController extends ControllerBase
 				}
 				else
 				{
-					exit('22');
 					$stock = new Stock();
 					$stock->name = $name;
 					$stock->opt = $opt;

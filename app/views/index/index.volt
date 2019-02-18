@@ -1,6 +1,7 @@
 {% extends "/layouts/main.volt" %}
 {% block content %}
-<div class="mt-4 row">
+
+<div class="mt-4 col">
 	<div class="col-3 ml-2">
 		<!-- Поиск по базе -->	
 		<form class="input-group mb-3 col" action="/" method="get">
@@ -12,7 +13,7 @@
 
 		<!-- Форма поступления -->
 		<label for="arrival" class="col" >Поступление</label>
-		<form class="input-group mb-3 col" action="/index/arrival/" method="post">		
+		<form class="input-group mb-3 col" action="/arrival/" method="post">		
 			<div class="input-group mb-3">
 				<input class="form-control" placeholder="Наименование" name="name" type="text" maxlength="200" required list="db" autocomplete="off" autocorrect="off">
 			</div>
@@ -35,6 +36,7 @@
 	<table class="table mr-4  table-hover table-bordered col">
 		<thead class="thead-light">
 			<tr>
+				<th scope="col">Артикл</th>
 				<th scope="col">Наименование</th>
 				<th scope="col">Цена опт.</th>
 				<th scope="col">Цена розн.</th>
@@ -44,6 +46,7 @@
 		{% if stock is defined %}
 			{% for stockElement in stock %}
 				<tr>
+					<th scope="row">{{ stockElement.id_supplies }}</th>
 					<td>{{ stockElement.name }}</td>
 					<td>{{ stockElement.opt }}₽</td>
 					<td>{{ stockElement.rozn }}₽</td>
