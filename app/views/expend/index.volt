@@ -24,6 +24,7 @@
 				<th scope="col" align="center">Цена опт.</th>
 				<th scope="col" align="center">Цена розн.</th>
 				<th scope="col" align="center">Количество</th>
+				<th></th>
 			</tr>
 		</thead>
 		{% set sumOpt = 0 %}
@@ -38,6 +39,15 @@
 						<td align="center">{{ soldElement.opt }}₽</td>
 						<td align="center">{{ soldElement.rozn }}₽</td>
 						<td align="center">{{ soldElement.col }}</td>
+						<td style="padding: 8px;">
+							<form action="/expend/delete/" method="post">
+								<input type="text" name="deleteItemId" value="{{ soldElement.stock_id }}" style="display: none;">
+								<input type="text" name="deleteItemDate" value="{{ today }}" style="display: none;">
+								<button type="submit" class="btn btn-light btn-sm">
+									<i class="fas fa-trash-alt"></i>
+								</button>
+							</form>
+						</td>
 					</tr>
 					{% set sumOpt = sumOpt + (soldElement.opt * soldElement.col) %}
 					{% set sumRozn = sumRozn + (soldElement.rozn * soldElement.col) %}

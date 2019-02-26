@@ -1,5 +1,5 @@
 <?php
-
+use Phalcon\Di;
 use Phalcon\DI\FactoryDefault;
 
 use Phalcon\Mvc\Dispatcher as PhDispatcher;

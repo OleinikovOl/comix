@@ -41,6 +41,7 @@
 				<th scope="col" align="center">Цена опт.</th>
 				<th scope="col" align="center">Цена розн.</th>
 				<th scope="col" align="center">Количество</th>
+				<th></th>
 			</tr>
 		</thead>
 		{% if stock is defined %}
@@ -53,6 +54,14 @@
 							<td align="center">{{ stockElement.opt }}₽</td>
 							<td align="center">{{ stockElement.rozn }}₽</td>
 							<td align="center">{{ stockElement.col }}</td>
+							<td style="padding: 8px;">
+								<form action="/delete/" method="post">
+									<input type="text" name="deleteItemId" value="{{ stockElement.id }}" style="display: none;">
+									<button type="submit" class="btn btn-light btn-sm">
+										<i class="fas fa-trash-alt"></i>
+									</button>
+								</form>
+							</td>
 						</tr>
 					{% endif %}
 				{% endfor %}
@@ -64,6 +73,14 @@
 						<td align="center">{{ stockElement.opt }}₽</td>
 						<td align="center">{{ stockElement.rozn }}₽</td>
 						<td align="center">{{ stockElement.col }}</td>
+						<td style="padding: 8px;">
+							<form action="/delete/" method="post">
+								<input type="text" name="deleteItemId" value="{{ stockElement.id }}" style="display: none;">
+								<button type="submit" class="btn btn-light btn-sm">
+									<i class="fas fa-trash-alt"></i>
+								</button>
+							</form>
+						</td>
 					</tr>
 				{% endfor %}
 			{% endif %}

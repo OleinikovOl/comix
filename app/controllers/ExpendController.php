@@ -93,5 +93,27 @@ class ExpendController extends ControllerBase
 		}
 		return $this->response->redirect('/expend/');
 	}
+
+	/**
+	 * Удаляет из базы
+	 */
+	public function deleteAction()
+	{
+		$date   = $this->request->getPost('deleteItemDate');
+		$itemId = $this->request->getPost('deleteItemId');
+		$item = Sold::findFirst([
+			'conditions' => 'stock_id = :itemId: AND date = :itemDate:',
+			'bind'       =>
+			[
+				'itemId'   => $itemId,
+				'itemDate' => $date
+			]
+		]);
+		$stockItem = Stock::findFirstById($itemId);
+		$stockItem->col = $stockItem->col + $item->col;
+		$item->delete();
+		$stockItem->save();
+		$this->response->redirect('/expend/');
+	}
 }
 

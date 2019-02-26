@@ -2,6 +2,9 @@
 
 class IndexController extends ControllerBase
 {
+	/**
+	 * Достает записли из базы и отдает на фронт
+	 */
 	public function indexAction()
 	{
 		$search = $this->request->get('search');
@@ -27,7 +30,9 @@ class IndexController extends ControllerBase
 	}
 
 
-
+	/**
+	 * Принимает данные из формы и записывает в базу
+	 */
 	public function arrivalAction()
 	{
 		$name = $this->request->getPost('name');
@@ -79,5 +84,13 @@ class IndexController extends ControllerBase
 		}
 	}
 
-
+	/**
+	 * Удаляет из базы
+	 */
+	public function deleteAction()
+	{
+		$item = Stock::findFirstById($this->request->getPost('deleteItemId'));
+		$item->delete();
+		$this->response->redirect('/');
+	}
 }
