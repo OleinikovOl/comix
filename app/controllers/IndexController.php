@@ -2,6 +2,9 @@
 
 class IndexController extends ControllerBase
 {
+	/**
+	 * Достает записли из базы и отдает на фронт
+	 */
 	public function indexAction()
 	{
 		$search = $this->request->get('search');
@@ -25,53 +28,50 @@ class IndexController extends ControllerBase
 	{
 		$this->response->setStatusCode(404, 'Not Found');
 	}
-	
 
 
+	/**
+	 * Принимает данные из формы и записывает в базу
+	 */
 	public function arrivalAction()
 	{
 		$name = $this->request->getPost('name');
 		$opt = $this->request->getPost('opt');
 		$rozn = $this->request->getPost('rozn');
 		$col = $this->request->getPost('col');
+
 		if (empty($opt))
-		{
 			$opt = 0;
-		}
+
 		if (empty($rozn))
-		{
 			$rozn = 0;
-		}
+
 		if (!empty($name))
 		{
 			$arrival = Stock::findFirstByName($name);
-			if (count($arrival) > 0)
+			if (!empty($arrival))
 			{
 				if ($opt > 0)
 				{
 					$arrival->opt = $opt;
 				}
-				if ($rozn > 0) 
+				if ($rozn > 0)
 				{
 					$arrival->rozn = $rozn;
 				}
-				$arrival->col = $arrival->col + $col; 
+				$arrival->col = $arrival->col + $col;
 				$arrival->update();
-
-				
-				
 				$this->response->redirect('/');
-			} 
+			}
 			else
-			{	
-				
+			{
+
 				if (empty($opt) || empty($rozn) || empty($col))
 				{
 					$this->response->redirect('/');
 				}
 				else
 				{
-					exit('22');
 					$stock = new Stock();
 					$stock->name = $name;
 					$stock->opt = $opt;
@@ -80,9 +80,17 @@ class IndexController extends ControllerBase
 					$stock->save();
 					$this->response->redirect('/');
 				}
-			}	
+			}
 		}
 	}
 
-
+	/**
+	 * Удаляет из базы
+	 */
+	public function deleteAction()
+	{
+		$item = Stock::findFirstById($this->request->getPost('deleteItemId'));
+		$item->delete();
+		$this->response->redirect('/');
+	}
 }

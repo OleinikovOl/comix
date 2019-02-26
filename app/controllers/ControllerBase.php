@@ -43,6 +43,7 @@ class ControllerBase extends Controller
 		$this->view->disable();
 		return;
 	}
+
 }
 
 ?>
