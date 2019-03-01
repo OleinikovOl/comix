@@ -52,8 +52,8 @@
 					<tr>
 						<th scope="row" align="center">{{ soldElement.stock_id }}</th>
 						<td align="left">{{ soldElement.name }}</td>
-						<td align="center">{{ soldElement.opt }}₽</td>
-						<td align="center">{{ soldElement.rozn }}₽</td>
+						<td align="center">{{ soldElement.opt }}₽×{{ soldElement.col }}={{ soldElement.opt*soldElement.col }}₽</td>
+						<td align="center">{{ soldElement.rozn }}₽×{{ soldElement.col }}={{ soldElement.rozn*soldElement.col }}₽</td>
 						<td align="center">{{ soldElement.col }}</td>
 						<td style="padding: 8px;">
 							<form action="/sold/delete/" method="post">
@@ -77,7 +77,7 @@
 			<td align="center">{{ sumCol }}</td>
 		</tr>
 		<tr>
-			<th scope="row" colspan="2" align="right">Итого:</th>
+			<th scope="row" colspan="2" align="right">Чистая прибыль (розница - опт):</th>
 			<td colspan="2" align="center">{{ sumRozn - sumOpt }}₽</td>
 		</tr>
 	</table>
