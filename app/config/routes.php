@@ -8,6 +8,11 @@ $router->add(
 	]
 );
 $router->add(
+	"/auth/", [
+		"controller" => 'index'
+	]
+);
+$router->add(
 	"/arrival/", [
 		"controller" => 'index',
 		"action"     => 'arrival'
