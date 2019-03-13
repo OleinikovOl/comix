@@ -29,7 +29,7 @@ class Security extends Phalcon\Mvc\User\Plugin
 
 	//Private area resources
 	$privateResources = [
-		'curces'  => ['*'],
+
 	];
 
 	foreach($privateResources as $resource => $actions)
@@ -38,13 +38,7 @@ class Security extends Phalcon\Mvc\User\Plugin
 	//Public area resources
 	$publicResources = [
 		'index' => ['*'],
-		'about' => ['*'],
-		'contacts' => ['*'],
-		'gallery' => ['*'],
-		'news' => ['*'],
-		'schedule' => ['*'],
-		'services' => ['*'],
-		'auth' => ['*']
+		'auth'  => ['*']
 	];
 
 	foreach($publicResources as $resource => $actions)
@@ -74,7 +68,7 @@ class Security extends Phalcon\Mvc\User\Plugin
 	*/
 	public function beforeDispatch(Phalcon\Events\Event $event, Phalcon\Mvc\Dispatcher $dispatcher, $exception)
 	{
-		$auth = $this->session->get('authUser');
+		$auth = $this->session->get('auth');
 		if (!$auth)
 		$role = 'Guests';
 		else
@@ -87,7 +81,7 @@ class Security extends Phalcon\Mvc\User\Plugin
 		$allowed = $acl->isAllowed($role, $controller, $action);
 		if($allowed != Phalcon\Acl::ALLOW)
 		{
-			return $this->response->redirect('/auth/');
+			return $this->response->redirect('/notfound/');
 		}
 	}
 }

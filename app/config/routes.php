@@ -40,6 +40,11 @@ $router->add(
 		"controller"=> 'sold'
 	]
 );
+$router->add(
+	"/auth/",[
+		"controller"=> 'index'
+	]
+);
 $router->handle();
 return $router;
 

@@ -17,6 +17,9 @@
 					<li class="nav-item"><a class="nav-link" href="/expend/">Проданное сегодня</a></li>
 					<li class="nav-item"><a class="nav-link" href="/sold/">Продано всего</a></li>
 				</ul>
+				<ul class="navbar-nav justify-content-end" style="width: 69%">
+					<li class="nav-item"><a class="nav-link" href="/auth/">Авторизация/Регистрация</a></li>
+				</ul>
 			</div>
 		</nav>
 	</header>
