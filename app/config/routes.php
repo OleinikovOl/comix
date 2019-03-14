@@ -9,7 +9,7 @@ $router->add(
 );
 $router->add(
 	"/auth/", [
-		"controller" => 'index'
+		"controller" => 'auth'
 	]
 );
 $router->add(
@@ -37,12 +37,7 @@ $router->add(
 );
 $router->add(
 	"/sold/",[
-		"controller"=> 'sold'
-	]
-);
-$router->add(
-	"/auth/",[
-		"controller"=> 'index'
+		"controller" => 'sold'
 	]
 );
 $router->handle();

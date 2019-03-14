@@ -1,8 +1,43 @@
 {% extends "/layouts/main.volt" %}
 {% block content %}
 <div class="container">
-	<div class="row justify-content-md-center">
-		123123
+	<div class="row justify-content-sm-center mt-5">
+		<form class="col-3" action="/auth/" method="post">
+			<div class="form-group">
+				<label for="inputLoginAuth">Логин или email</label>
+				<input type="login" class="form-control" id="inputLoginAuth" placeholder="examle@example.ru" required="">
+			</div>
+			<div class="form-group">
+				<label for="passwordAuth">Пароль</label>
+				<input type="password" class="form-control" id="passwordAuth" placeholder="Пароль" required="">
+			</div>
+			<button type="submit" class="btn btn-primary">Войти</button>
+		</form>
+		<span class="border-left"></span>
+		<form class="col-3" id="registerForm" onsubmit="return false;">
+			<div class="form-group">
+				<label for="loginRegister">Логин</label>
+				<input type="login" class="form-control" id="loginRegister" name="login" placeholder="Логин" data-toggle="popover" data-placement="right" data-content="Этот логин занят" required="">
+			</div>
+			<div class="form-group">
+				<label for="emailRegister">Email</label>
+				<input type="email" class="form-control" id="emailRegister" name="email" aria-describedby="emailHelp" placeholder="examle@example.ru" data-toggle="popover" data-placement="right" data-content="Этот email уже зарегестрирован" required="">
+			</div>
+			<div class="form-group">
+				<label for="passwordRegister">Пароль</label>
+				<input type="password" class="form-control" id="passwordRegister" name="password" placeholder="Пароль" required="">
+			</div>
+			<div class="form-group">
+				<label for="rePasswordRegister">Повторите пароль</label>
+				<input type="password" class="form-control" id="rePasswordRegister" name="rePassword" placeholder="Повторите пароль" data-toggle="popover" data-placement="right" data-content="Пароли не равны" required="">
+			</div>
+			<div class="form-group">
+				<label for="secretKey">Секретный ключ (если есть)</label>
+				<input type="text" class="form-control" id="secretKey" name="secretKey" placeholder="Повторите пароль">
+			</div>
+			<button class="btn btn-primary" onclick="Register()">Зарегестрироваться</button>
+		</form>
 	</div>
 </div>
+<script async src="/js/auth.js"></script>
 {% endblock %}

@@ -44,10 +44,30 @@
 				<th></th>
 			</tr>
 		</thead>
-		{% if stock is defined %}
-			{% if stockSearch is defined %}
-				{% for stockElement in stock %}
-					{% if stockSearch == stockElement.name %}
+		<tbody>
+			{% if stock is defined %}
+				{% if stockSearch is defined %}
+					{% for stockElement in stock %}
+						{% if stockSearch == stockElement.name %}
+							<tr>
+								<th scope="row" align="center">{{ stockElement.id }}</th>
+								<td align="left">{{ stockElement.name }}</td>
+								<td align="center">{{ stockElement.opt }}₽</td>
+								<td align="center">{{ stockElement.rozn }}₽</td>
+								<td align="center">{{ stockElement.col }}</td>
+								<td style="padding: 8px;">
+									<form action="/delete/" method="post">
+										<input type="text" name="deleteItemId" value="{{ stockElement.id }}" style="display: none;">
+										<button type="submit" class="btn btn-light btn-sm">
+											<i class="fas fa-trash-alt"></i>
+										</button>
+									</form>
+								</td>
+							</tr>
+						{% endif %}
+					{% endfor %}
+				{% else %}
+					{% for stockElement in stock %}
 						<tr>
 							<th scope="row" align="center">{{ stockElement.id }}</th>
 							<td align="left">{{ stockElement.name }}</td>
@@ -63,28 +83,10 @@
 								</form>
 							</td>
 						</tr>
-					{% endif %}
-				{% endfor %}
-			{% else %}
-				{% for stockElement in stock %}
-					<tr>
-						<th scope="row" align="center">{{ stockElement.id }}</th>
-						<td align="left">{{ stockElement.name }}</td>
-						<td align="center">{{ stockElement.opt }}₽</td>
-						<td align="center">{{ stockElement.rozn }}₽</td>
-						<td align="center">{{ stockElement.col }}</td>
-						<td style="padding: 8px;">
-							<form action="/delete/" method="post">
-								<input type="text" name="deleteItemId" value="{{ stockElement.id }}" style="display: none;">
-								<button type="submit" class="btn btn-light btn-sm">
-									<i class="fas fa-trash-alt"></i>
-								</button>
-							</form>
-						</td>
-					</tr>
-				{% endfor %}
+					{% endfor %}
+				{% endif %}
 			{% endif %}
-		{% endif %}
+		</tbody>
 	</table>
 </div>
 
