@@ -36,10 +36,10 @@ class IndexController extends ControllerBase
 	public function arrivalAction()
 	{
 		$name = $this->request->getPost('name');
-		$opt = $this->request->getPost('opt');
+		$opt  = $this->request->getPost('opt');
 		$rozn = $this->request->getPost('rozn');
-		$col = $this->request->getPost('col');
-
+		$col  = $this->request->getPost('col');
+		$date = date('Y-m-d');
 		if (empty($opt))
 			$opt = 0;
 
@@ -59,7 +59,8 @@ class IndexController extends ControllerBase
 				{
 					$arrival->rozn = $rozn;
 				}
-				$arrival->col = $arrival->col + $col;
+				$arrival->col  = $arrival->col + $col;
+				$arrival->date = $date;
 				$arrival->update();
 				$this->response->redirect('/');
 			}
@@ -73,11 +74,13 @@ class IndexController extends ControllerBase
 				else
 				{
 					$stock = new Stock();
-					$stock->name = $name;
-					$stock->opt = $opt;
-					$stock->rozn = $rozn;
-					$stock->col = $col;
-					$stock->save();
+					$stock->create([
+						'name' => $name,
+						'opt'  => $opt,
+						'rozn' => $rozn,
+						'col'  => $col,
+						'date' => $date
+					]);
 					$this->response->redirect('/');
 				}
 			}

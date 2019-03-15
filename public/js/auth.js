@@ -54,7 +54,7 @@ function SignIn()
 			if (result.success === false)
 			{
 				if (result.message == 'no user')
-					$('#authForm').popover('show');
+					$('#authButton').popover('show');
 			}
 			else
 			{
