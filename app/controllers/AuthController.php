@@ -2,6 +2,10 @@
 
 class AuthController extends ControllerBase
 {
+	public function indexAction()
+	{
+
+	}
 	/**
 	 * Регистрация
 	 */
@@ -70,35 +74,30 @@ class AuthController extends ControllerBase
 	/**
 	 * Авторизация пользователя
 	 */
-	public function indexAction()
+	public function signInAction()
 	{
-		// $login    = $this->request->getPost('login');
-		// $password = $this->request->getPost('password');
-		// if(empty($login) || empty($password))
-		// {
-		// 	return;
-		// }
+		// Получаем данные
+		$login    = $this->request->getPost('login');
+		$password = md5($this->request->getPost('password'));
 
-		// $user = Users::find([
-		// 	'conditions' => "login = :login: AND password = :pass:",
-		// 	'bind'       =>
-		// 	[
-		// 		'login'  => $login,
-		// 		'pass'   => md5($password)
-		// 	]
-		// ]);
+		$user = Users::findFirst([
+			'conditions' => "login = :login: AND password = :pass:",
+			'bind'       =>
+			[
+				'login'  => $login,
+				'pass'   => $password
+			]
+		]);
 
-		// if(count($user) === 0)
-		// {
-		// 	$this->view->setVar('errors','Пользователь не найден');
-		// 	return;
-		// }
-		// else
-		// {
-		// 	$user = $user[0];
-		// 	$this->session->set('auth', $user->id);
-		// 	$this->response->redirect('/');
-		// }
+		if(empty($user))
+		{
+			return $this->jsonResult(['success' => false, 'message' => 'no user']);
+		}
+		else
+		{
+			$this->session->set('auth', $user->id);
+			return $this->jsonResult(['success']);
+		};
 
 	}
 
@@ -108,6 +107,6 @@ class AuthController extends ControllerBase
 	public function logOutAction()
 	{
 		$this->session->remove('auth');
-		$this->response->redirect('/');
+		return $this->jsonResult(['success' => true]);
 	}
 }

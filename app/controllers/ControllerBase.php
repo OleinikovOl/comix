@@ -10,7 +10,15 @@ class ControllerBase extends Controller
 	 */
 	public function initialize()
 	{
+		$userId = $this->session->get('auth');
 
+		if(!empty($userId))
+		{
+			$user = Users::findFirstById($userId);
+
+			if (!empty($user))
+				$this->view->setVar('user', $user);
+		}
 	}
 
 	/**

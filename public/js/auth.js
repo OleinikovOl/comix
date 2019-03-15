@@ -36,21 +36,42 @@ function Register() {
 			}
 		});
 	};
+};
 
-
-function Auth() {
+function SignIn()
+{
 	var password = $('#passwordAuth'),
 		login    = $('#loginAuth');
 
 	$.ajax({
-		url: '/auth/',
+		url: '/auth/signIn/',
 		method: 'POST',
 		data: $('#authForm').serializeArray(),
 		success: function(json)
 		{
 			var result = $.parseJSON(json);
-			if (result.success === true)	
+			if (result.success === false)
+			{
+				if (result.message == 'no user')
+					$('#authForm').popover('show');
+			}
+			else
+			{
+				document.location.href = '/';
+			}
 		}
 	});
-}
+};
+
+function LogOut()
+{
+	$.ajax({
+		url: '/auth/logOut/',
+		method: 'POST',
+		data: '',
+		success: function()
+		{
+			document.location.replace('/');
+		}
+	});
 };
