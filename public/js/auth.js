@@ -1,4 +1,5 @@
-function Register() {
+function Register()
+{
 	var	passwordRegister   = $('#passwordRegister'),
 		rePasswordRegister = $('#rePasswordRegister'),
 		loginRegister      = $('#loginRegister'),
@@ -63,7 +64,7 @@ function SignIn()
 	});
 };
 
-function LogOut()
+function Logout()
 {
 	$.ajax({
 		url: '/auth/logOut/',

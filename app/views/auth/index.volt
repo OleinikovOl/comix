@@ -1,6 +1,5 @@
 {% extends "/layouts/main.volt" %}
 {% block content %}
-<script async src="/js/auth.js"></script>
 <div class="container">
 	<div class="row justify-content-sm-center mt-5">
 		<form class="col-3" id="authForm" onsubmit="return false;" data-toggle="popover" data-placement="left" data-content="Введены недействительные логин или пароль, либо вы не подтвердили email">
