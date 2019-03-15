@@ -44,6 +44,7 @@
 				{% endif %}
 				<th scope="col" align="center">Цена{% if user is defined and user.admin == 1 %} розн. {% endif %}</th>
 				<th scope="col" align="center">Количество</th>
+				<th scope="col" align="center">Дата поступления</th>
 				{% if user is defined and user.admin == 1 %}
 					<th></th>
 				{% endif %}
@@ -62,6 +63,7 @@
 								{% endif %}
 								<td align="center">{{ stockElement.rozn }}₽</td>
 								<td align="center">{{ stockElement.col }}</td>
+								<td align="center">{{ stockElement.date }}</td>
 								{% if user is defined and user.admin == 1 %}
 									<td style="padding: 8px;">
 										<form action="/delete/" method="post">
@@ -85,6 +87,7 @@
 							{% endif %}
 							<td align="center">{{ stockElement.rozn }}₽</td>
 							<td align="center">{{ stockElement.col }}</td>
+							<td align="center">{{ stockElement.date }}</td>
 							{% if user is defined and user.admin == 1 %}
 								<td style="padding: 8px;">
 									<form action="/delete/" method="post">

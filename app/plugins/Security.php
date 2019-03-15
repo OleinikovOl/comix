@@ -29,7 +29,8 @@ class Security extends Phalcon\Mvc\User\Plugin
 
 	//Private area resources
 	$privateResources = [
-
+		'expend' => ['*'],
+		'sold'   => ['*']
 	];
 
 	foreach($privateResources as $resource => $actions)
