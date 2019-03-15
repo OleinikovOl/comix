@@ -70,6 +70,9 @@ class AuthController extends ControllerBase
 			'aprove' => 1
 		]);
 		$aprove->delete();
+		// Автоматическая авторизация при подтверждении
+		$this->session->set('auth', $user->id);
+		return $this->jsonResult(['success']);
 	}
 	/**
 	 * Авторизация пользователя
