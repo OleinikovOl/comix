@@ -40,6 +40,11 @@ $router->add(
 		"controller" => 'sold'
 	]
 );
+$router->add(
+	"/aprove/",[
+		"controller" => 'auth'
+	]
+);
 $router->handle();
 return $router;
 

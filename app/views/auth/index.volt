@@ -2,16 +2,16 @@
 {% block content %}
 <div class="container">
 	<div class="row justify-content-sm-center mt-5">
-		<form class="col-3" action="/auth/" method="post">
+		<form class="col-3" id="authForm" data-toggle="popover" data-placement="left" data-content="Введены недействительные логин или пароль, либо вы не подтвердили email">
 			<div class="form-group">
 				<label for="inputLoginAuth">Логин или email</label>
-				<input type="login" class="form-control" id="inputLoginAuth" placeholder="examle@example.ru" required="">
+				<input type="login" class="form-control" name="login" id="inputLoginAuth" placeholder="examle@example.ru" required="">
 			</div>
 			<div class="form-group">
 				<label for="passwordAuth">Пароль</label>
-				<input type="password" class="form-control" id="passwordAuth" placeholder="Пароль" required="">
+				<input type="password" class="form-control" name="password" id="passwordAuth" placeholder="Пароль" required="">
 			</div>
-			<button type="submit" class="btn btn-primary">Войти</button>
+			<button class="btn btn-primary" onclick="Auth()">Войти</button>
 		</form>
 		<span class="border-left"></span>
 		<form class="col-3" id="registerForm" onsubmit="return false;">

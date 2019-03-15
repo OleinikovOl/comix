@@ -14,33 +14,58 @@ class AuthController extends ControllerBase
 		$secretKey = $this->request->getPost('secretKey');
 
 		// Проверяем данные на занятость
-		$userLogin = Users::findFirstByLogin($login);
-		if (!empty($user))
+		$userLogin = Users::findFirst([]);
+		if (!empty($userLogin))
 			return $this->jsonResult(['success' => false, 'message' => 'login is exists']);
 		$userEmail = Users::findFirstByEmail($email);
-		if (!empty($user))
+		if (!empty($userEmail))
 			return $this->jsonResult(['success' => false, 'message' => 'email is exists']);
 		$isAdmin = 0;
 		// Если есть SecretKey то даем админку
 		if (!empty($secretKey))
-			$isAdmin = 1;
+		{
+			$secret = Secret::findFirstByCode($secretKey);
+			if (!empty($secret))
+			{
+				$isAdmin = 1;
+				$secret->delete();
+			}
+		}
 		// Создаем ключ и пользователя
-		$user = new User();
-		$user->create({
+		$user = new Users();
+		$user->create([
 			'email'    => $email,
 			'login'    => $login,
-			'password' => $pass,
+			'password' => md5($pass),
 			'admin'    => $isAdmin,
 			'aprove'   => 0
-		});
+		]);
 		$hash = md5($email . date('D, d M Y H:i:s') . 'ComixShop');
 		$aprove = new Aprove();
-		$aprove->create({
+		$aprove->create([
 			'hash' => $hash,
 			'email' => $email
-		});
-		mail($email, 'Подтверждение почты', 'Перейдите по ссылке ' . $this->config->application->domain . '/auth/aprove?hash=' . $hash, 'From: ComixShop <ComixShop@olegdev.tk>');
+		]);
+		mail($email, 'Подтверждение почты', 'Перейдите по ссылке: ' . $this->config->application->domain . '/auth/aprove?hash=' . $hash, 'From: ComixShop <ComixShop@olegdev.tk>');
 		$this->jsonResult(['success' => true]);
+	}
+
+	public function aproveAction()
+	{
+		// Получаем хеш
+		$hash = $this->request->get('hash');
+
+		// Проверяем наличия хеша в базе
+		$aprove = Aprove::findFirstByHash($hash);
+		if (empty($aprove))
+			return $this->response->redirect('/notfound/');
+
+		// Если есть, то подтверждаем пользователя
+		$user = Users::findFirstByEmail($aprove->email);
+		$user->update([
+			'aprove' => 1
+		]);
+		$aprove->delete();
 	}
 	/**
 	 * Авторизация пользователя
