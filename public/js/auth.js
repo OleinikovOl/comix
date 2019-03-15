@@ -18,19 +18,19 @@ function Register()
 			data: $('#registerForm').serializeArray(),
 			success: function(json)
 			{
+				loginRegister.popover('hide');
+				emailRegister.popover('hide');
+				rePasswordRegister.popover('hide');
 				var result = $.parseJSON(json);
 				if (result.success === true)
 				{
-					loginRegister.popover('hide');
-					emailRegister.popover('hide');
-					rePasswordRegister.popover('hide');
 					alert('Перейдите по ссылке, которую мы прислали вам на электронную почту!');
 				}
-				else if (result.success === false && result.message == 'login is exists')
+				if (result.message === 'login is exists')
 				{
 					loginRegister.popover('show');
 				}
-				else if (result.success === false && result.message == 'email is exists')
+				if (result.message === 'email is exists')
 				{
 					emailRegister.popover('show');
 				}

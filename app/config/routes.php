@@ -41,8 +41,9 @@ $router->add(
 	]
 );
 $router->add(
-	"/aprove/",[
-		"controller" => 'auth'
+	"/auth/aprove/",[
+		"controller" => 'auth',
+		"action"     => 'aprove'
 	]
 );
 $router->handle();
