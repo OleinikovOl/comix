@@ -1,5 +1,5 @@
 <?php
-use Phalcon\Di;
+
 use Phalcon\DI\FactoryDefault;
 
 use Phalcon\Mvc\Dispatcher as PhDispatcher;
@@ -17,14 +17,14 @@ use Phalcon\Session\Adapter\Files as SessionAdapter;
  * The FactoryDefault Dependency Injector automatically register the right services providing a full stack framework
  */
 $di = new FactoryDefault();
-
 /**
  * Register events manager
  */
 $di->set('dispatcher', function() use ($di)
 {
 	$eventsManager = $di->getShared('eventsManager');
-
+	$authMiddleware = new Security($di);
+	$eventsManager->attach('dispatch', $authMiddleware);
 	$eventsManager->attach(
 		"dispatch:beforeException",
 		function($event, $dispatcher, $exception)
@@ -36,8 +36,8 @@ $di->set('dispatcher', function() use ($di)
 				case PhDispatcher::EXCEPTION_ACTION_NOT_FOUND:
 					$dispatcher->forward(
 						[
-							'controller' => 'notfound',
-							'action'     => 'index',
+							'controller' => 'index',
+							'action'     => 'notfound',
 						]
 					);
 					return false;
@@ -67,6 +67,8 @@ $di->set('view', function () use ($config)
 				'compiledSeparator' => '_',
 				'compileAlways'     => true
 			]);
+			$compiler = $volt->getCompiler();
+			$compiler->addFunction('strtotime','strtotime');
 			return $volt;
 		},
 		'.phtml' => 'Phalcon\Mvc\View\Engine\Php'

@@ -8,6 +8,11 @@ $router->add(
 	]
 );
 $router->add(
+	"/auth/", [
+		"controller" => 'auth'
+	]
+);
+$router->add(
 	"/arrival/", [
 		"controller" => 'index',
 		"action"     => 'arrival'
@@ -32,7 +37,12 @@ $router->add(
 );
 $router->add(
 	"/sold/",[
-		"controller"=> 'sold'
+		"controller" => 'sold'
+	]
+);
+$router->add(
+	"/aprove/",[
+		"controller" => 'auth'
 	]
 );
 $router->handle();
