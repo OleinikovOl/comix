@@ -18,7 +18,7 @@ class AuthController extends ControllerBase
 		$secretKey = $this->request->getPost('secretKey');
 
 		// Проверяем данные на занятость
-		$userLogin = Users::findFirst([]);
+		$userLogin = Users::findFirstByLogin($login);
 		if (!empty($userLogin))
 			return $this->jsonResult(['success' => false, 'message' => 'login is exists']);
 		$userEmail = Users::findFirstByEmail($email);
@@ -72,7 +72,7 @@ class AuthController extends ControllerBase
 		$aprove->delete();
 		// Автоматическая авторизация при подтверждении
 		$this->session->set('auth', $user->id);
-		return $this->jsonResult(['success']);
+		$this->view->setVar('user', $user);
 	}
 	/**
 	 * Авторизация пользователя
