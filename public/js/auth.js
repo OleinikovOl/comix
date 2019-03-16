@@ -41,9 +41,6 @@ function Register()
 
 function SignIn()
 {
-	var password = $('#passwordAuth'),
-		login    = $('#loginAuth');
-
 	$.ajax({
 		url: '/auth/signIn/',
 		method: 'POST',

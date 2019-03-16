@@ -15,11 +15,12 @@
 	<header class="row justify-content-md-center">
 		<nav class="navbar navbar-expand-lg navbar-light bg-light row" style="width: 97%;">
 			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav col">
+				<ul class="navbar-nav col-10">
 					<li class="nav-item"><a class="nav-link" href="/">В наличии{% if user is defined and user.admin == 1 %} и поступление{% endif %}</a></li>
 					{% if user is defined and user.admin == 1 %}
 						<li class="nav-item"><a class="nav-link" href="/expend/">Проданное сегодня</a></li>
 						<li class="nav-item"><a class="nav-link" href="/sold/">Продано всего</a></li>
+						<!-- <li class="nav-item"><a class="nav-link" href="/otherExIn/">Прочие расходы и доходы</a></li> -->
 					{% endif %}
 				</ul>
 				{% if user is defined %}

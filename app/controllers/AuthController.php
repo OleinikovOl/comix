@@ -83,7 +83,7 @@ class AuthController extends ControllerBase
 		$login    = $this->request->getPost('login');
 		$password = $this->request->getPost('password');
 
-		$user = Users::findFirst([
+		$userLogin = Users::findFirst([
 			'conditions' => "login = :login: AND password = :pass:",
 			'bind'       =>
 			[
@@ -91,20 +91,27 @@ class AuthController extends ControllerBase
 				'pass'   => md5($password)
 			]
 		]);
-		if(empty($user))
+
+		if(!empty($userLogin) && $userLogin->aprove == 1)
 		{
-			$user = Users::findFirst([
-				'conditions' => 'email = :email: AND password = :pass:',
+			$this->session->set('auth', $userLogin->id);
+			return $this->jsonResult(['success' => true]);
+		}
+		else
+		{
+			$userEmail = Users::findFirst([
+				'conditions' => "email = :email: AND password = :pass:",
 				'bind'       =>
 				[
 					'email' => $login,
-					'pass'  => $password
+					'pass'  => md5($password)
 				]
 			]);
 		}
-		if(!empty($user))
+
+		if(!empty($userEmail) && $userEmail->aprove == 1)
 		{
-			$this->session->set('auth', $user->id);
+			$this->session->set('auth', $userEmail->id);
 			return $this->jsonResult(['success' => true]);
 		}
 		else
