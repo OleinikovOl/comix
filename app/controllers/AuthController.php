@@ -81,27 +81,36 @@ class AuthController extends ControllerBase
 	{
 		// Получаем данные
 		$login    = $this->request->getPost('login');
-		$password = md5($this->request->getPost('password'));
+		$password = $this->request->getPost('password');
 
 		$user = Users::findFirst([
 			'conditions' => "login = :login: AND password = :pass:",
 			'bind'       =>
 			[
 				'login'  => $login,
-				'pass'   => $password
+				'pass'   => md5($password)
 			]
 		]);
-
 		if(empty($user))
 		{
-			return $this->jsonResult(['success' => false, 'message' => 'no user']);
+			$user = Users::findFirst([
+				'conditions' => 'email = :email: AND password = :pass:',
+				'bind'       =>
+				[
+					'email' => $login,
+					'pass'  => $password
+				]
+			]);
+		}
+		if(!empty($user))
+		{
+			$this->session->set('auth', $user->id);
+			return $this->jsonResult(['success' => true]);
 		}
 		else
 		{
-			$this->session->set('auth', $user->id);
-			return $this->jsonResult(['success']);
-		};
-
+			return $this->jsonResult(['success' => false, 'message' => 'no user']);
+		}
 	}
 
 	/**

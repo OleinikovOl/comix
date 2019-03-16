@@ -56,7 +56,7 @@ function SignIn()
 				if (result.message == 'no user')
 					$('#authButton').popover('show');
 			}
-			else
+			else if (result.success === true)
 			{
 				document.location.href = '/';
 			}

@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container">
 	<div class="row justify-content-sm-center mt-5">
-		<form class="col-3" onsubmit="return false;">
+		<form class="col-3" id="authForm" onsubmit="return false;">
 			<div class="form-group">
 				<label for="inputLoginAuth">Логин или email</label>
 				<input type="login" class="form-control" name="login" id="inputLoginAuth" placeholder="examle@example.ru" required="">
