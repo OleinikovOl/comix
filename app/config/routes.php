@@ -46,6 +46,11 @@ $router->add(
 		"action"     => 'aprove'
 	]
 );
+$router->add(
+	"/otherExIn/", [
+		"controller" => 'otherExIn'
+	]
+);
 $router->handle();
 return $router;
 
