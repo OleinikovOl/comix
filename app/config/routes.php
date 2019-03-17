@@ -47,8 +47,8 @@ $router->add(
 	]
 );
 $router->add(
-	"/otherExIn/", [
-		"controller" => 'otherExIn'
+	"/other/", [
+		"controller" => 'other'
 	]
 );
 $router->handle();

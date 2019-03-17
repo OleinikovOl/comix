@@ -10,7 +10,6 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
-	<script src="/js/auth.js"></script>
 
 	<header class="row justify-content-md-center">
 		<nav class="navbar navbar-expand-lg navbar-light bg-light row" style="width: 97%;">
@@ -20,7 +19,7 @@
 					{% if user is defined and user.admin == 1 %}
 						<li class="nav-item"><a class="nav-link" href="/expend/">Проданное сегодня</a></li>
 						<li class="nav-item"><a class="nav-link" href="/sold/">Продано всего</a></li>
-						<!-- <li class="nav-item"><a class="nav-link" href="/otherExIn/">Прочие расходы и доходы</a></li> -->
+						<li class="nav-item"><a class="nav-link" href="/other/">Прочие расходы и доходы</a></li>
 					{% endif %}
 				</ul>
 				{% if user is defined %}
