@@ -44,8 +44,6 @@ class SoldController extends ControllerBase
 		}
 		$monthSold['opt'] = $monthsOpt;
 		$monthSold['rozn'] = $monthsRozn;
-		// print_r($monthSold);
-		// exit;
 		$monthRus = [
 			'1'  => 'Январь',
 			'2'  => 'Февраль',
@@ -62,6 +60,10 @@ class SoldController extends ControllerBase
 		];
 		$this->view->setVar('month', $monthRus);
 		$this->view->setVar('monthSold', $monthSold);
+
+		// Вытаскиваем прочие расходы на выбранную дату
+		$other = Other::findByDate(date('Y-m-d'));
+		$this->view->setVar('other', $other);
 	}
 
 	/**
