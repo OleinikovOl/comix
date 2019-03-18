@@ -2,22 +2,35 @@
 
 class IndexController extends ControllerBase
 {
-	/**
-	 * Достает записли из базы и отдает на фронт
-	 */
 	public function indexAction()
 	{
-		$search = $this->request->get('search');
-		if (!empty($search))
-		{
-			$this->view->setVar('stockSearch', $search);
-		}
-		$stock = Stock::find();
 
-		if (!empty($stock))
-		{
-			$this->view->setVar('stock',$stock);
-		}
+	}
+
+	/**
+	 * Достает записи из базы и отдает на фронт
+	 */
+	public function getItemsAction()
+	{
+		$stock = Stock::find([
+			'order' => 'date DESC'
+		]);
+		return $this->jsonResult(['success' => true, 'items' => $stock]);
+	}
+
+	public function searchAction()
+	{
+		$search = $this->request->getPost('search');
+		$search = '%' + $search + '%';
+		$stock = Stock::find([
+				'conditions' => 'name LIKE ?1',
+				'bind'       =>
+				[
+					1 => $search
+				],
+				'order' => 'date DESC'
+			]);
+		return $this->jsonResult(['success' => true, 'items' => $stock]);
 	}
 
 	/**
@@ -90,10 +103,10 @@ class IndexController extends ControllerBase
 	/**
 	 * Удаляет из базы
 	 */
-	public function deleteAction()
+	public function deleteItemAction()
 	{
-		$item = Stock::findFirstById($this->request->getPost('deleteItemId'));
+		$item = Stock::findFirstById($this->request->getPost('id'));
 		$item->delete();
-		$this->response->redirect('/');
+		return $this->jsonResult(['success' => true]);
 	}
 }

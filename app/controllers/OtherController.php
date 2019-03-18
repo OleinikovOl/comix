@@ -21,7 +21,7 @@ class OtherController extends ControllerBase
 
 	public function deleteItemAction()
 	{
-		$id = $this->request->getPost('itemId');
+		$id = $this->request->getPost('id');
 		$item = Other::findFirstById($id);
 		$item->delete();
 		return $this->jsonResult(['success' => true]);

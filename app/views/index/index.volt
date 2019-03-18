@@ -1,13 +1,13 @@
 {% extends "/layouts/main.volt" %}
 {% block content %}
-
+<script src="/js/stock.js"></script>
 <div class="mt-4 row" style="width: 100%">
 	<div class="col-3 ml-2">
 		<!-- Поиск по базе -->
-		<form class="input-group mb-3 col" action="/" method="get">
-			<input type="text" name="search" class="form-control" aria-describedby="button-addon2" list="db" placeholder="Поиск по имени" autocomplete="off" autocorrect="off">
+		<form class="input-group mb-3 col" id="searchForm" onsubmit="return false;">
+			<input type="text" name="search" class="form-control" aria-describedby="button-addon" list="db" placeholder="Поиск по имени" autocomplete="off" autocorrect="off">
 			<div class="input-group-prepend">
-				<button class="btn btn-outline-secondary" type="submit" id="button-addon2">Поиск</button>
+				<button class="btn btn-outline-secondary" onclick="Search()" id="button-addon">Поиск</button>
 			</div>
 		</form>
 		{% if user is defined and user.admin == 1 %}
@@ -51,57 +51,22 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% if stock is defined %}
-				{% if stockSearch is defined %}
-					{% for stockElement in stock %}
-						{% if stockSearch == stockElement.name %}
-							<tr>
-								<th scope="row" align="center">{{ stockElement.id }}</th>
-								<td align="left">{{ stockElement.name }}</td>
-								{% if user is defined and user.admin == 1 %}
-									<td align="center">{{ stockElement.opt }}₽</td>
-								{% endif %}
-								<td align="center">{{ stockElement.rozn }}₽</td>
-								<td align="center">{{ stockElement.col }}</td>
-								<td align="center">{{ stockElement.date }}</td>
-								{% if user is defined and user.admin == 1 %}
-									<td style="padding: 8px;">
-										<form action="/delete/" method="post">
-											<input type="text" name="deleteItemId" value="{{ stockElement.id }}" style="display: none;">
-											<button type="submit" class="btn btn-light btn-sm">
-												<i class="fas fa-trash-alt"></i>
-											</button>
-										</form>
-									</td>
-								{% endif %}
-							</tr>
-						{% endif %}
-					{% endfor %}
-				{% else %}
-					{% for stockElement in stock %}
-						<tr>
-							<th scope="row" align="center">{{ stockElement.id }}</th>
-							<td align="left">{{ stockElement.name }}</td>
-							{% if user is defined and user.admin == 1 %}
-								<td align="center">{{ stockElement.opt }}₽</td>
-							{% endif %}
-							<td align="center">{{ stockElement.rozn }}₽</td>
-							<td align="center">{{ stockElement.col }}</td>
-							<td align="center">{{ stockElement.date }}</td>
-							{% if user is defined and user.admin == 1 %}
-								<td style="padding: 8px;">
-									<form action="/delete/" method="post">
-										<input type="text" name="deleteItemId" value="{{ stockElement.id }}" style="display: none;">
-										<button type="submit" class="btn btn-light btn-sm">
-											<i class="fas fa-trash-alt"></i>
-										</button>
-									</form>
-								</td>
-							{% endif %}
-						</tr>
-					{% endfor %}
-				{% endif %}
-			{% endif %}
+			<!-- <tr>
+				<th scope="row" align="center">{{ stockElement.id }}</th>
+				<td align="left">{{ stockElement.name }}</td>
+				<td align="center">{{ stockElement.opt }}₽</td>
+				<td align="center">{{ stockElement.rozn }}₽</td>
+				<td align="center">{{ stockElement.col }}</td>
+				<td align="center">{{ stockElement.date }}</td>
+				<td style="padding: 8px;">
+					<form action="/delete/" method="post">
+						<input type="text" name="deleteItemId" value="{{ stockElement.id }}" style="display: none;">
+						<button type="submit" class="btn btn-light btn-sm">
+							<i class="fas fa-trash-alt"></i>
+						</button>
+					</form>
+				</td>
+			</tr> -->
 		</tbody>
 	</table>
 </div>
