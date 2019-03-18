@@ -10,6 +10,25 @@
 				<button class="btn btn-outline-secondary" type="submit" id="button-addon2">Поиск</button>
 			</div>
 		</form>
+		<!-- Прибыль в течении года -->
+		<div class="table-responsive">
+			<table class="table table-sm table-hover table-bordered">
+				<thead class="thead-light">
+					<tr>
+						<th scope="col" align="center">Наименование</th>
+						<th scope="col" align="center">Расход</th>
+						<th scope="col" align="center">Прибыль</th>
+					</tr>
+				</thead>
+				{% for otherItem in other %}
+					<tr>
+						<th scope="row">{{ otherItem.name }}</th>
+						<td align="center">{{ otherItem.expend }}₽</td>
+						<td align="center">{{ otherItem.income }}₽</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
 		<div class="table-responsive">
 			<table class="table table-sm table-hover table-bordered">
 				<thead class="thead-light">
