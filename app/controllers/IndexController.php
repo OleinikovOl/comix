@@ -7,30 +7,78 @@ class IndexController extends ControllerBase
 
 	}
 
+	public function getDateAction()
+	{
+		$date = date('Y-m-d');
+		return $this->jsonResult(['success' => true, 'date' => $date]);
+	}
+
 	/**
 	 * Достает записи из базы и отдает на фронт
 	 */
 	public function getItemsAction()
 	{
-		$stock = Stock::find([
-			'order' => 'date DESC'
-		]);
-		return $this->jsonResult(['success' => true, 'items' => $stock]);
+		$admin = $this->session->get('auth');
+		if ($admin != null)
+		{
+			$user = Users::findFirstById($admin);
+			$admin = $user->admin;
+		}
+		else
+		{
+			$admin = 0;
+		}
+		if ($admin == 1)
+		{
+			$stock = Stock::find([
+				'order' => 'date DESC'
+			]);
+		}
+		else
+		{
+			$stock = Stock::find([
+				'columns' => 'id, name, rozn, col, date',
+				'order' => 'date DESC'
+			]);
+		}
+		return $this->jsonResult(['success' => true, 'items' => $stock, 'admin' => $admin]);
 	}
 
 	public function searchAction()
 	{
-		$search = $this->request->getPost('search');
-		$search = '%' + $search + '%';
-		$stock = Stock::find([
-				'conditions' => 'name LIKE ?1',
-				'bind'       =>
-				[
-					1 => $search
-				],
+		$search = $this->request->get('search');
+
+		$admin = $this->session->get('auth');
+		if ($admin != null)
+		{
+			$user = Users::findFirstById($admin);
+			$admin = $user->admin;
+		}
+		else
+		{
+			$admin = 0;
+		}
+		if ($admin == 1)
+		{
+			$stock = Stock::find([
 				'order' => 'date DESC'
 			]);
-		return $this->jsonResult(['success' => true, 'items' => $stock]);
+		}
+		else
+		{
+			$stock = Stock::find([
+				'columns' => 'id, name, rozn, col, date',
+				'order'   => 'date DESC'
+			]);
+		}
+		$items = [];
+		$stock = $stock->toArray();
+		foreach ($stock as $item)
+		{
+			if (stristr($item['name'], $search))
+				$items[] = $item;
+		}
+		return $this->jsonResult(['success' => true, 'items' => $items, 'admin' => $admin]);
 	}
 
 	/**
@@ -75,14 +123,14 @@ class IndexController extends ControllerBase
 				$arrival->col  = $arrival->col + $col;
 				$arrival->date = $date;
 				$arrival->update();
-				$this->response->redirect('/');
+				return $this->jsonResult(['success' => true]);
 			}
 			else
 			{
 
 				if (empty($opt) || empty($rozn) || empty($col))
 				{
-					$this->response->redirect('/');
+					return $this->jsonResult(['success' => false]);
 				}
 				else
 				{
@@ -94,7 +142,7 @@ class IndexController extends ControllerBase
 						'col'  => $col,
 						'date' => $date
 					]);
-					$this->response->redirect('/');
+					return $this->jsonResult(['success' => true]);
 				}
 			}
 		}

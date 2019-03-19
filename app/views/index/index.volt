@@ -13,7 +13,7 @@
 		{% if user is defined and user.admin == 1 %}
 			<!-- Форма поступления -->
 			<label for="arrival" class="col">Поступление</label>
-			<form class="input-group mb-3 col" action="/arrival/" method="post">
+			<form class="input-group mb-3 col" id="arrivalForm" onsubmit="return false;">
 				<div class="input-group mb-3">
 					<input class="form-control" placeholder="Наименование" name="name" type="text" maxlength="200" required list="db" autocomplete="off" autocorrect="off">
 				</div>
@@ -28,7 +28,7 @@
 						<input class="form-control" placeholder="Кол." name="col" type="number" min="0" required autocomplete="off" autocorrect="off">
 					</div>
 				</div>
-				<button class="btn btn-outline-secondary" type="submit">Сохранить</button>
+				<button class="btn btn-outline-secondary" onclick="Arrival()">Сохранить</button>
 			</form>
 		{% endif %}
 	</div>
@@ -51,30 +51,12 @@
 			</tr>
 		</thead>
 		<tbody>
-			<!-- <tr>
-				<th scope="row" align="center">{{ stockElement.id }}</th>
-				<td align="left">{{ stockElement.name }}</td>
-				<td align="center">{{ stockElement.opt }}₽</td>
-				<td align="center">{{ stockElement.rozn }}₽</td>
-				<td align="center">{{ stockElement.col }}</td>
-				<td align="center">{{ stockElement.date }}</td>
-				<td style="padding: 8px;">
-					<form action="/delete/" method="post">
-						<input type="text" name="deleteItemId" value="{{ stockElement.id }}" style="display: none;">
-						<button type="submit" class="btn btn-light btn-sm">
-							<i class="fas fa-trash-alt"></i>
-						</button>
-					</form>
-				</td>
-			</tr> -->
+			<!-- Элементы таблицы -->
 		</tbody>
 	</table>
 </div>
 
-	<!-- Элементы для списка -->
 	<datalist id="db">
-		{% for stockElement in stock %}
-			<option value="{{ stockElement.name }}"></option>
-		{% endfor %}
+		<!-- Элементы для поиска -->
 	</datalist>
 {% endblock %}

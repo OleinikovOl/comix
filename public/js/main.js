@@ -7,7 +7,7 @@ $(document).ready(function() {
 function GetDate()
 {
 	$.ajax({
-		url: '/other/getDate/',
+		url: '/index/getDate/',
 		type: 'POST',
 		success: function(json)
 		{
@@ -19,3 +19,19 @@ function GetDate()
 		}
 	});
 }
+
+/**
+ * Выход из профиля
+ */
+function Logout()
+{
+	$.ajax({
+		url: '/auth/logOut/',
+		method: 'POST',
+		data: '',
+		success: function()
+		{
+			document.location.replace('/');
+		}
+	});
+};
