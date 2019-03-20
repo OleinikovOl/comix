@@ -2,89 +2,22 @@
 
 class IndexController extends ControllerBase
 {
+	/**
+	 * Достает записли из базы и отдает на фронт
+	 */
 	public function indexAction()
 	{
-
-	}
-
-	public function getDateAction()
-	{
-		$date = date('Y-m-d');
-		return $this->jsonResult(['success' => true, 'date' => $date]);
-	}
-
-	/**
-	 * Достает записи из базы и отдает на фронт
-	 */
-	public function getItemsAction()
-	{
-		$admin = $this->session->get('auth');
-		if ($admin != null)
-		{
-			$user = Users::findFirstById($admin);
-			$admin = $user->admin;
-		}
-		else
-		{
-			$admin = 0;
-		}
-		if ($admin == 1)
-		{
-			$stock = Stock::find([
-				'order' => 'date DESC'
-			]);
-		}
-		else
-		{
-			$stock = Stock::find([
-				'columns' => 'id, name, rozn, col, date',
-				'order' => 'date DESC'
-			]);
-		}
-		return $this->jsonResult(['success' => true, 'items' => $stock, 'admin' => $admin]);
-	}
-
-	public function searchAction()
-	{
 		$search = $this->request->get('search');
-
-		$admin = $this->session->get('auth');
-		if ($admin != null)
-		{
-			$user = Users::findFirstById($admin);
-			$admin = $user->admin;
-		}
-		else
-		{
-			$admin = 0;
-		}
-
-		if ($admin == 1)
-		{
-			$stock = Stock::find([
-				'order' => 'date DESC'
-			]);
-		}
-		else
-		{
-			$stock = Stock::find([
-				'columns' => 'id, name, rozn, col, date',
-				'order'   => 'date DESC'
-			]);
-		}
-
 		if (!empty($search))
 		{
-			$items = [];
-			$stock = $stock->toArray();
-			foreach ($stock as $item)
-			{
-				if (stristr($item['name'], $search))
-					$items[] = $item;
-			}
-			return $this->jsonResult(['success' => true, 'items' => $items, 'admin' => $admin]);
+			$this->view->setVar('stockSearch', $search);
 		}
-		return $this->jsonResult(['success' => true, 'items' => $stock, 'admin' => $admin]);
+		$stock = Stock::find();
+
+		if (!empty($stock))
+		{
+			$this->view->setVar('stock',$stock);
+		}
 	}
 
 	/**
@@ -129,14 +62,14 @@ class IndexController extends ControllerBase
 				$arrival->col  = $arrival->col + $col;
 				$arrival->date = $date;
 				$arrival->update();
-				return $this->jsonResult(['success' => true]);
+				$this->response->redirect('/');
 			}
 			else
 			{
 
 				if (empty($opt) || empty($rozn) || empty($col))
 				{
-					return $this->jsonResult(['success' => false]);
+					$this->response->redirect('/');
 				}
 				else
 				{
@@ -148,7 +81,7 @@ class IndexController extends ControllerBase
 						'col'  => $col,
 						'date' => $date
 					]);
-					return $this->jsonResult(['success' => true]);
+					$this->response->redirect('/');
 				}
 			}
 		}
@@ -157,10 +90,10 @@ class IndexController extends ControllerBase
 	/**
 	 * Удаляет из базы
 	 */
-	public function deleteItemAction()
+	public function deleteAction()
 	{
-		$item = Stock::findFirstById($this->request->getPost('id'));
+		$item = Stock::findFirstById($this->request->getPost('deleteItemId'));
 		$item->delete();
-		return $this->jsonResult(['success' => true]);
+		$this->response->redirect('/');
 	}
 }

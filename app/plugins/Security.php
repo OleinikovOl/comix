@@ -83,7 +83,7 @@ class Security extends Phalcon\Mvc\User\Plugin
 		$allowed = $acl->isAllowed($role, $controller, $action);
 		if($allowed != Phalcon\Acl::ALLOW)
 		{
-			return $this->response->redirect('/auth/');
+			return $this->response->redirect('/notfound/');
 		}
 	}
 }

@@ -60,3 +60,16 @@ function SignIn()
 		}
 	});
 };
+
+function Logout()
+{
+	$.ajax({
+		url: '/auth/logOut/',
+		method: 'POST',
+		data: '',
+		success: function()
+		{
+			document.location.replace('/');
+		}
+	});
+};
