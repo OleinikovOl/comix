@@ -135,4 +135,5 @@ function Arrival()
 			}
 		}
 	});
+	$('input').val('');
 }

@@ -5,8 +5,11 @@ class ExpendController extends ControllerBase
 
 	public function indexAction()
 	{
+	}
+
+	public function getItemsAction()
+	{
 		$today = date('Y-m-d');
-		$this->view->setVar('today', $today);
 
 		$soldToday = Sold::find([
 			'conditions' => 'date like :todayDate:',
@@ -15,16 +18,14 @@ class ExpendController extends ControllerBase
 				'todayDate' => $today
 			]
 		]);
-		if(!empty($soldToday))
-			$this->view->setVar('sold', $soldToday);
-		$stock = Stock::find();
-		if(!empty($stock))
-			$this->view->setVar('stock', $stock);
+		$stock = Stock::find([
+			'columns' => 'name, col'
+		]);
+		return $this->jsonResult(['success' => true, 'itemsSold' => $soldToday, 'itemsStock' => $stock]);
 	}
 
 	public function sellAction()
 	{
-		$today = date('Y-m-d');
 		// Получаем данные
 		$name = $this->request->getPost('name');
 		$col  = $this->request->getPost('col');
@@ -35,7 +36,7 @@ class ExpendController extends ControllerBase
 			return $this->response->redirect('/expend/');
 
 		// Проверяем на наличии такой записи в stock
-		$stockItem = Stock::find([
+		$stockItem = Stock::findFirst([
 			'conditions' => 'name = :name:',
 			'bind'       =>
 			[
@@ -43,10 +44,9 @@ class ExpendController extends ControllerBase
 			]
 		]);
 		if(!count($stockItem))
-			return $this->response->redirect('/expend/');
-		$stockItem = $stockItem[0];
+			return $this->jsonResult(['success' => false]);
 		if($stockItem->col < $col)
-			return $this->response->redirect('/expend/');
+			return $this->jsonResult(['success' => false]);
 
 		// Ищем такую запись в Sold
 		$soldItem = Sold::find([
@@ -69,14 +69,14 @@ class ExpendController extends ControllerBase
 				'opt'      => $stockItem->opt,
 				'rozn'     => $stockItem->rozn,
 				'col'      => $col,
-				'date'     => $today
+				'date'     => $date
 			]);
 			if($error)
-				return $this->response->redirect('/expend/');
+				return $this->jsonResult(['success' => false]);
 
 			$error = !$stockItem->save();
 			if($error)
-				return $this->response->redirect('/expend/');
+				return $this->jsonResult(['success' => false]);
 		}// Если нашли, то обновляем
 		else
 		{
@@ -85,22 +85,22 @@ class ExpendController extends ControllerBase
 			$soldItem->col = $soldItem->col + $col;
 			$error = !$soldItem->save();
 			if($error)
-				return $this->response->redirect('/expend/');
+				return $this->jsonResult(['success' => false]);
 
 			$error = !$stockItem->save();
 			if($error)
-				return $this->response->redirect('/expend/');
+				return $this->jsonResult(['success' => false]);
 		}
-		return $this->response->redirect('/expend/');
+		return $this->jsonResult(['success' => true]);
 	}
 
 	/**
 	 * Удаляет из базы
 	 */
-	public function deleteAction()
+	public function deleteItemAction()
 	{
-		$date   = $this->request->getPost('deleteItemDate');
-		$itemId = $this->request->getPost('deleteItemId');
+		$date   = date('Y-m-d');
+		$itemId = $this->request->getPost('id');
 		$item = Sold::findFirst([
 			'conditions' => 'stock_id = :itemId: AND date = :itemDate:',
 			'bind'       =>
@@ -113,7 +113,7 @@ class ExpendController extends ControllerBase
 		$stockItem->col = $stockItem->col + $item->col;
 		$item->delete();
 		$stockItem->save();
-		$this->response->redirect('/expend/');
+		return $this->jsonResult(['success' => true]);
 	}
 }
 

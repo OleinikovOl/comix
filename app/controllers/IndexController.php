@@ -58,6 +58,7 @@ class IndexController extends ControllerBase
 		{
 			$admin = 0;
 		}
+
 		if ($admin == 1)
 		{
 			$stock = Stock::find([
@@ -71,14 +72,19 @@ class IndexController extends ControllerBase
 				'order'   => 'date DESC'
 			]);
 		}
-		$items = [];
-		$stock = $stock->toArray();
-		foreach ($stock as $item)
+
+		if (!empty($search))
 		{
-			if (stristr($item['name'], $search))
-				$items[] = $item;
+			$items = [];
+			$stock = $stock->toArray();
+			foreach ($stock as $item)
+			{
+				if (stristr($item['name'], $search))
+					$items[] = $item;
+			}
+			return $this->jsonResult(['success' => true, 'items' => $items, 'admin' => $admin]);
 		}
-		return $this->jsonResult(['success' => true, 'items' => $items, 'admin' => $admin]);
+		return $this->jsonResult(['success' => true, 'items' => $stock, 'admin' => $admin]);
 	}
 
 	/**
