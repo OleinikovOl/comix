@@ -1,16 +1,16 @@
 {% extends "/layouts/main.volt" %}
 {% block content %}
-
+<script src="/js/sold.js"></script>
 <div class="mt-4 row" style="width: 100%">
 	<div class="col-3 ml-2">
 		<!-- Поиск по базе -->
-		<form class="input-group mb-3 col" action="/sold/" method="get">
-			<input type="date" name="date" class="form-control" value="{{ date }}" aria-describedby="button-addon2" autocomplete="off" autocorrect="off">
+		<form class="input-group mb-3 col" id="dateForm" onsubmit="return false;">
+			<input type="date" name="date" class="form-control" value="" aria-describedby="button-addon2" autocomplete="off" autocorrect="off">
 			<div class="input-group-prepend">
-				<button class="btn btn-outline-secondary" type="submit" id="button-addon2">Поиск</button>
+				<button class="btn btn-outline-secondary" id="button-addon2" onclick="GetItems()">Поиск</button>
 			</div>
 		</form>
-		<!-- Прибыль в течении года -->
+		<!-- Прочие расходы и прибыль -->
 		<div class="table-responsive">
 			<table class="table table-sm table-hover table-bordered">
 				<thead class="thead-light">
@@ -20,15 +20,13 @@
 						<th scope="col" align="center">Прибыль</th>
 					</tr>
 				</thead>
-				{% for otherItem in other %}
-					<tr>
-						<th scope="row">{{ otherItem.name }}</th>
-						<td align="center">{{ otherItem.expend }}₽</td>
-						<td align="center">{{ otherItem.income }}₽</td>
-					</tr>
-				{% endfor %}
+				<tbody id="bodyOther">
+					<!-- Место для прочич расходов и прибыли -->
+				</tbody>
 			</table>
 		</div>
+
+		<!-- Прибыль за год -->
 		<div class="table-responsive">
 			<table class="table table-sm table-hover table-bordered">
 				<thead class="thead-light">
@@ -39,14 +37,9 @@
 						<th scope="col" align="center">Итого</th>
 					</tr>
 				</thead>
-				{% for name, value in month %}
-					<tr>
-						<th scope="row">{{ value }}</th>
-						<td align="center">{{ monthSold['opt'][name] }}₽</td>
-						<td align="center">{{ monthSold['rozn'][name] }}₽</td>
-						<td align="center">{{ monthSold['rozn'][name] - monthSold['opt'][name] }}₽</td>
-					</tr>
-				{% endfor %}
+				<tbody id="bodyYear">
+					<!-- Элементы прибыли за год -->
+				</tbody>
 			</table>
 		</div>
 	</div>
@@ -63,42 +56,21 @@
 				<th></th>
 			</tr>
 		</thead>
-		{% set sumOpt = 0 %}
-		{% set sumRozn = 0 %}
-		{% set sumCol = 0 %}
-		{% if daySold is defined %}
-			{% for soldElement in daySold %}
-					<tr>
-						<th scope="row" align="center">{{ soldElement.stock_id }}</th>
-						<td align="left">{{ soldElement.name }}</td>
-						<td align="center">{{ soldElement.opt }}₽×{{ soldElement.col }}={{ soldElement.opt*soldElement.col }}₽</td>
-						<td align="center">{{ soldElement.rozn }}₽×{{ soldElement.col }}={{ soldElement.rozn*soldElement.col }}₽</td>
-						<td align="center">{{ soldElement.col }}</td>
-						<td style="padding: 8px;">
-							<form action="/sold/delete/" method="post">
-								<input type="text" name="deleteItemId" value="{{ soldElement.stock_id }}" style="display: none;">
-								<input type="text" name="deleteItemDate" value="{{ soldElement.date }}" style="display: none;">
-								<button type="submit" class="btn btn-light btn-sm">
-									<i class="fas fa-trash-alt"></i>
-								</button>
-							</form>
-						</td>
-					</tr>
-					{% set sumOpt = sumOpt + (soldElement.opt * soldElement.col) %}
-					{% set sumRozn = sumRozn + (soldElement.rozn * soldElement.col) %}
-					{% set sumCol = sumCol + soldElement.col %}
-			{% endfor %}
-		{% endif %}
-		<tr>
-			<th scope="row" colspan="2">Всего:</th>
-			<td align="center">{{ sumOpt }}₽</td>
-			<td align="center">{{ sumRozn }}₽</td>
-			<td align="center">{{ sumCol }}</td>
-		</tr>
-		<tr>
-			<th scope="row" colspan="2" align="right">Чистая прибыль (розница - опт):</th>
-			<td colspan="2" align="center">{{ sumRozn - sumOpt }}₽</td>
-		</tr>
+		<tbody id="body">
+			<!-- Место для элементов -->
+		</tbody>
+		<tbody id="total">
+			<tr>
+				<th scope="row" colspan="2">Всего:</th>
+				<td id="sumOpt" align="center"></td>
+				<td id="sumRozn" align="center"></td>
+				<td id="sumCol" align="center"></td>
+			</tr>
+			<tr>
+				<th scope="row" colspan="2" align="right">Чистая прибыль (розница - опт):</th>
+				<td id="clearIncome" colspan="2" align="center"></td>
+			</tr>
+		</tbody>
 	</table>
 </div>
 {% endblock %}

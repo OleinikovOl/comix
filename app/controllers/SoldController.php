@@ -2,18 +2,19 @@
 
 class SoldController extends ControllerBase
 {
-
 	public function indexAction()
 	{
-		// Получаем данные
-		$date = $this->request->get('date');
-		if(empty($date))
-			$date = date('Y-m-d');
-		$this->view->setVar('date', $date);
 
+	}
+
+	public function getItemsAction()
+	{
+		// Получаем данные
+		$date = $this->request->getPost('date');
+		if (empty($date))
+			$date = date('Y-m-d');
 		// Вытащить из базы все проданное в этот день
 		$daySold = Sold::findByDate($date);
-		$this->view->setVar('daySold', $daySold);
 
 		// Проданное в этот год на каждый месяц
 		$date = explode('-', $date);
@@ -44,35 +45,20 @@ class SoldController extends ControllerBase
 		}
 		$monthSold['opt'] = $monthsOpt;
 		$monthSold['rozn'] = $monthsRozn;
-		$monthRus = [
-			'1'  => 'Январь',
-			'2'  => 'Февраль',
-			'3'  => 'Март',
-			'4'  => 'Апрель',
-			'5'  => 'Май',
-			'6'  => 'Июнь',
-			'7'  => 'Июль',
-			'8'  => 'Август',
-			'9'  => 'Сентябрь',
-			'10' => 'Октябрь',
-			'11' => 'Ноябрь',
-			'12' => 'Декабрь'
-		];
-		$this->view->setVar('month', $monthRus);
-		$this->view->setVar('monthSold', $monthSold);
 
 		// Вытаскиваем прочие расходы на выбранную дату
 		$other = Other::findByDate(date('Y-m-d'));
-		$this->view->setVar('other', $other);
+
+		return $this->jsonResult(['success' => true, 'items' => $daySold, 'other' => $other, 'monthSold' => $monthSold]);
 	}
 
 	/**
 	 * Удаляет из базы
 	 */
-	public function deleteAction()
+	public function deleteItemAction()
 	{
-		$date   = $this->request->getPost('deleteItemDate');
-		$itemId = $this->request->getPost('deleteItemId');
+		$date   = $this->request->getPost('date');
+		$itemId = $this->request->getPost('id');
 		$item = Sold::findFirst([
 			'conditions' => 'stock_id = :itemId: AND date = :itemDate:',
 			'bind'       =>
@@ -85,7 +71,7 @@ class SoldController extends ControllerBase
 		$stockItem->col = $stockItem->col + $item->col;
 		$item->delete();
 		$stockItem->save();
-		$this->response->redirect('/sold/');
+		return $this->jsonResult(['success' => true]);
 	}
 
 }
