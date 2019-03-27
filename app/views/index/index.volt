@@ -33,27 +33,44 @@
 		{% endif %}
 	</div>
 
-	<!-- Таблица с товарами -->
-	<table class="table table-hover table-bordered col">
-		<thead class="thead-light">
-			<tr>
-				<th scope="col" align="center">Артикл</th>
-				<th scope="col" align="center">Наименование</th>
-				{% if user is defined and user.admin == 1 %}
-					<th scope="col" align="center">Цена опт.</th>
-				{% endif %}
-				<th scope="col" align="center">Цена{% if user is defined and user.admin == 1 %} розн. {% endif %}</th>
-				<th scope="col" align="center">Количество</th>
-				<th scope="col" align="center">Дата поступления</th>
-				{% if user is defined and user.admin == 1 %}
-					<th></th>
-				{% endif %}
-			</tr>
-		</thead>
-		<tbody>
-			<!-- Элементы таблицы -->
-		</tbody>
-	</table>
+	<div class="col">
+		<!-- Таблица с товарами -->
+		<table class="table table-hover table-bordered">
+			<thead class="thead-light">
+				<tr>
+					<th scope="col" align="center">Артикл</th>
+					<th scope="col" align="center">Наименование</th>
+					{% if user is defined and user.admin == 1 %}
+						<th scope="col" align="center">Цена опт.</th>
+					{% endif %}
+					<th scope="col" align="center">Цена{% if user is defined and user.admin == 1 %} розн. {% endif %}</th>
+					<th scope="col" align="center">Количество</th>
+					<th scope="col" align="center">Дата поступления</th>
+					{% if user is defined and user.admin == 1 %}
+						<th></th>
+					{% endif %}
+				</tr>
+			</thead>
+			<tbody>
+				<!-- Элементы таблицы -->
+			</tbody>
+		</table>
+
+		<nav aria-label="...">
+			<ul class="pagination pagination-md justify-content-start">
+			<li class="page-item"><a href="" class="page-link">Предыдущая</a></li>
+				<li class="page-item active" aria-current="page">
+					<span class="page-link">
+						1
+						<span class="sr-only">(current)</span>
+					</span>
+				</li>
+				<li class="page-item"><a class="page-link" href="#">2</a></li>
+				<li class="page-item"><a class="page-link" href="#">3</a></li>
+				<li class="page-item"><a href="" class="page-link">Следующая</a></li>
+			</ul>
+		</nav>
+	</div>
 </div>
 
 	<datalist id="db">
