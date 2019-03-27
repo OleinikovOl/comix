@@ -13,9 +13,15 @@ class OtherController extends ControllerBase
 		return $this->jsonResult(['success' => true, 'items' => $otherItems->toArray()]);
 	}
 
+	public function getDateAction()
+	{
+		$date = date('Y-m-d');
+		return $this->jsonResult(['success' => true, 'date' => $date]);
+	}
+
 	public function deleteItemAction()
 	{
-		$id = $this->request->getPost('id');
+		$id = $this->request->getPost('itemId');
 		$item = Other::findFirstById($id);
 		$item->delete();
 		return $this->jsonResult(['success' => true]);

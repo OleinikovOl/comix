@@ -2,6 +2,7 @@ $(document).ready(function()
 {
 	GetDate();
 	GetItems();
+	GetDate();
 });
 
 function GetItems()
@@ -21,9 +22,12 @@ function GetItems()
 					template += '<td align="center">' + val.expend + '₽</td>';
 					template += '<td align="center">' + val.income + '₽</td>';
 					template += '<td style="padding: 8px;">';
-					template += '<button class="btn btn-light btn-sm" onclick="DeleteItem('+ val.id + ')">';
+					template += '<form id="formDelete" onsubmit="return false;">';
+					template += '<input type="text" name="itemId" value="' + val.id + '" style="display: none;">';
+					template += '<button class="btn btn-light btn-sm" onclick="DeleteItem()">';
 					template += '<i class="fas fa-trash-alt"></i>';
 					template += '</button>';
+					template += '</form>';
 					template += '</td>';
 					template += '</tr>';
 					$('#table').append(template);
@@ -36,12 +40,28 @@ function GetItems()
 	});
 }
 
-function DeleteItem(id)
+function GetDate()
+{
+	$.ajax({
+		url: '/other/getDate/',
+		type: 'POST',
+		success: function(json)
+		{
+			var result = $.parseJSON(json);
+			if (result.success == true)
+			{
+				$('input[name="date"]').val(result.date);
+			}
+		}
+	});
+}
+
+function DeleteItem()
 {
 	$.ajax({
 		url: '/other/deleteItem/',
 		method: 'POST',
-		data: { id: id },
+		data: $('#formDelete').serializeArray(),
 		success: function(json)
 		{
 			var result = $.parseJSON(json);

@@ -4,6 +4,7 @@ class AuthController extends ControllerBase
 {
 	public function indexAction()
 	{
+
 	}
 	/**
 	 * Регистрация
