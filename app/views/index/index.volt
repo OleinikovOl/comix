@@ -33,77 +33,44 @@
 		{% endif %}
 	</div>
 
-	<!-- Таблица с товарами -->
-	<table class="table table-hover table-bordered col">
-		<thead class="thead-light">
-			<tr>
-				<th scope="col" align="center">Артикл</th>
-				<th scope="col" align="center">Наименование</th>
-				{% if user is defined and user.admin == 1 %}
-					<th scope="col" align="center">Цена опт.</th>
-				{% endif %}
-				<th scope="col" align="center">Цена{% if user is defined and user.admin == 1 %} розн. {% endif %}</th>
-				<th scope="col" align="center">Количество</th>
-				<th scope="col" align="center">Дата поступления</th>
-				{% if user is defined and user.admin == 1 %}
-					<th></th>
-				{% endif %}
-			</tr>
-		</thead>
-		<tbody>
-			{% if stock is defined %}
-				{% if stockSearch is defined %}
-					{% for stockElement in stock %}
-						{% if stockSearch == stockElement.name %}
-							<tr>
-								<th scope="row" align="center">{{ stockElement.id }}</th>
-								<td align="left">{{ stockElement.name }}</td>
-								{% if user is defined and user.admin == 1 %}
-									<td align="center">{{ stockElement.opt }}₽</td>
-								{% endif %}
-								<td align="center">{{ stockElement.rozn }}₽</td>
-								<td align="center">{{ stockElement.col }}</td>
-								<td align="center">{{ stockElement.date }}</td>
-								{% if user is defined and user.admin == 1 %}
-									<td style="padding: 8px;">
-										<form action="/delete/" method="post">
-											<input type="text" name="deleteItemId" value="{{ stockElement.id }}" style="display: none;">
-											<button type="submit" class="btn btn-light btn-sm">
-												<i class="fas fa-trash-alt"></i>
-											</button>
-										</form>
-									</td>
-								{% endif %}
-							</tr>
-						{% endif %}
-					{% endfor %}
-				{% else %}
-					{% for stockElement in stock %}
-						<tr>
-							<th scope="row" align="center">{{ stockElement.id }}</th>
-							<td align="left">{{ stockElement.name }}</td>
-							{% if user is defined and user.admin == 1 %}
-								<td align="center">{{ stockElement.opt }}₽</td>
-							{% endif %}
-							<td align="center">{{ stockElement.rozn }}₽</td>
-							<td align="center">{{ stockElement.col }}</td>
-							<td align="center">{{ stockElement.date }}</td>
-							{% if user is defined and user.admin == 1 %}
-								<td style="padding: 8px;">
-									<form action="/delete/" method="post">
-										<input type="text" name="deleteItemId" value="{{ stockElement.id }}" style="display: none;">
-										<button type="submit" class="btn btn-light btn-sm">
-											<i class="fas fa-trash-alt"></i>
-										</button>
-									</form>
-								</td>
-							{% endif %}
-						</tr>
-					{% endfor %}
-				{% endif %}
-			{% endif %}
-		</tbody>
-	</table>
+	<div class="col">
+		<!-- Таблица с товарами -->
+		<table class="table table-hover table-bordered">
+			<thead class="thead-light">
+				<tr>
+					<th scope="col" align="center">Артикл</th>
+					<th scope="col" align="center">Наименование</th>
+					{% if user is defined and user.admin == 1 %}
+						<th scope="col" align="center">Цена опт.</th>
+					{% endif %}
+					<th scope="col" align="center">Цена{% if user is defined and user.admin == 1 %} розн. {% endif %}</th>
+					<th scope="col" align="center">Количество</th>
+					<th scope="col" align="center">Дата поступления</th>
+					{% if user is defined and user.admin == 1 %}
+						<th></th>
+					{% endif %}
+				</tr>
+			</thead>
+			<tbody>
+				<!-- Элементы таблицы -->
+			</tbody>
+		</table>
+
+		<nav aria-label="...">
+			<ul class="pagination pagination-md justify-content-start">
+			<li class="page-item"><a href="" class="page-link">Предыдущая</a></li>
+				<li class="page-item active" aria-current="page">
+					<span class="page-link">
+						1
+						<span class="sr-only">(current)</span>
+					</span>
+				</li>
+				<li class="page-item"><a class="page-link" href="#">2</a></li>
+				<li class="page-item"><a class="page-link" href="#">3</a></li>
+				<li class="page-item"><a href="" class="page-link">Следующая</a></li>
+			</ul>
+		</nav>
+	</div>
 </div>
 
 	<!-- Элементы для списка -->
