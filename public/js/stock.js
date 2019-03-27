@@ -20,18 +20,21 @@ function GetItems()
 					$.each(result.items, function(index, val)
 					{
 						template = '<tr>';
-						template += '<th scope="row" align="center">' + val.id + '</th>'
-						template += '<td align="left">' + val.name + '</td>'
-						template += '<td align="center">' + val.opt + '₽</td>'
-						template += '<td align="center">' + val.rozn + '₽</td>'
-						template += '<td align="center">' + val.col + '</td>'
-						template += '<td align="center">' + val.date + '</td>'
-						template += '<td style="padding: 8px;">'
-						template += '<button class="btn btn-light btn-sm" onclick="DeleteItem(' + val.id + ')">'
-						template += '<i class="fas fa-trash-alt"></i>'
-						template += '</button>'
-						template += '</td>'
-						template += '</tr>'
+						template += '<th scope="row" align="center">' + val.id + '</th>';
+						template += '<td align="left">' + val.name + '</td>';
+						template += '<td align="center">' + val.opt + '₽</td>';
+						template += '<td align="center">' + val.rozn + '₽</td>';
+						template += '<td align="center">' + val.col + '</td>';
+						template += '<td align="center">' + val.date + '</td>';
+						template += '<td style="padding: 8px;">';
+						template += '<button class="btn btn-light btn-sm" onclick="">';
+						template += '<i class="fas fa-edit"></i>';
+						template += '</button>';
+						template += '<button class="btn btn-light btn-sm" onclick="DeleteItem(' + val.id + ')">';
+						template += '<i class="fas fa-trash-alt"></i>';
+						template += '</button>';
+						template += '</td>';
+						template += '</tr>';
 						$('tbody').append(template);
 						template = '<option value="' + val.name + '"></option>'
 						$('#db').append(template);
