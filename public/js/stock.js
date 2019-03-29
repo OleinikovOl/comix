@@ -3,11 +3,14 @@ $(document).ready(function()
 	GetItems();
 });
 
-function GetItems()
+function GetItems(page)
 {
+	// if (page = 'undefiend')
+		var page = 1;
 	$.ajax({
 		url: '/index/getItems/',
-		method: 'POST',
+		method: 'GET',
+		data: {page: page},
 		success: function(json)
 		{
 			var result = $.parseJSON(json),
@@ -20,7 +23,7 @@ function GetItems()
 					$.each(result.items, function(index, val)
 					{
 						template = '<tr>';
-						template += '<th scope="row" align="center">' + val.id + '</th>';
+						template += '<th scope="row" align="center">' + val + '</th>';
 						template += '<td align="left">' + val.name + '</td>';
 						template += '<td align="center">' + val.opt + '₽</td>';
 						template += '<td align="center">' + val.rozn + '₽</td>';
@@ -53,6 +56,30 @@ function GetItems()
 						template = '<option value="' + val.name + '"></option>'
 						$('#db').append(template);
 					});
+				// Pagination
+				$('.pagination').html('');
+				if (result.total != 1)
+				{
+					template = '';
+					if (result.current != 1)
+					{
+						template += '<li class="page-item"><a href="" class="page-link" onclick="GetItems(' + result.before + ')">Предыдущая</a></li>';
+						if (result.current != 2)
+						{
+							template += '<li class="page-item"><a class="page-link" href="" onclick="GetItems(1)">1</a></li>';
+							template += '<li class="page-item"><span class="page-link">. . .</span></li>'
+						}
+						else if (result.current == 1)
+						{
+							template += '<li class="page-item active"><span class="page-link" href="">1</span></li>';
+						}
+					}
+					else
+					{
+						template += '';
+					}
+					$('.pagination').html(template);
+				}
 			}
 		}
 	});

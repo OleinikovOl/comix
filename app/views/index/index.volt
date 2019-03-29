@@ -56,9 +56,9 @@
 			</tbody>
 		</table>
 
-		<nav aria-label="...">
+		<nav>
 			<ul class="pagination pagination-md justify-content-start">
-			<li class="page-item"><a href="" class="page-link">Предыдущая</a></li>
+				<li class="page-item"><a href="" class="page-link" onclick="GetItems()">Предыдущая</a></li>
 				<li class="page-item active" aria-current="page">
 					<span class="page-link">
 						1
@@ -67,7 +67,7 @@
 				</li>
 				<li class="page-item"><a class="page-link" href="#">2</a></li>
 				<li class="page-item"><a class="page-link" href="#">3</a></li>
-				<li class="page-item"><a href="" class="page-link">Следующая</a></li>
+				<li class="page-item"><a class="page-link">Следующая</a></li>
 			</ul>
 		</nav>
 	</div>

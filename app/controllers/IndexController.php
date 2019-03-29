@@ -1,4 +1,5 @@
 <?php
+use Phalcon\Paginator\Adapter\Model as PaginatorModel;
 
 class IndexController extends ControllerBase
 {
@@ -19,6 +20,9 @@ class IndexController extends ControllerBase
 	public function getItemsAction()
 	{
 		$admin = $this->session->get('auth');
+		$currentPage = $this->request->get('page');
+		if (empty($currentPage))
+			$currentPage = 1;
 		if ($admin != null)
 		{
 			$user = Users::findFirstById($admin);
@@ -38,10 +42,25 @@ class IndexController extends ControllerBase
 		{
 			$stock = Stock::find([
 				'columns' => 'id, name, rozn, col, date',
-				'order' => 'date DESC'
+				'order'   => 'date DESC'
 			]);
 		}
-		return $this->jsonResult(['success' => true, 'items' => $stock, 'admin' => $admin]);
+
+		$paginator = new PaginatorModel([
+			'data'  => $stock,
+			'limit' => 10,
+			'page'  => $currentPage,
+		]);
+		$stock = $paginator->getPaginate();
+		return $this->jsonResult([
+			'success' => true,
+			'items'   => $stock->items,
+			'before'  => $stock->before,
+			'current' => $stock->current,
+			'next'    => $stock->next,
+			'total'   => $stock->total_pages,
+			'admin'   => $admin
+		]);
 	}
 
 	public function searchAction()
