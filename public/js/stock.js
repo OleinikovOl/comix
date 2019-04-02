@@ -65,7 +65,7 @@ function GetItems(page)
 					{
 						template += '<li class="page-item"><a href="" class="page-link" onclick="GetItems(' + result.before + ')">Предыдущая</a></li>';
 						if (result.current != 2)
-						{
+		    			{
 							template += '<li class="page-item"><a class="page-link" href="" onclick="GetItems(1)">1</a></li>';
 							template += '<li class="page-item"><span class="page-link">. . .</span></li>'
 						}
