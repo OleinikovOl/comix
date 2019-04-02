@@ -5,7 +5,7 @@ $(document).ready(function()
 
 function GetItems(page)
 {
-	// if (page = 'undefiend')
+	if (page = 'undefiend')
 		var page = 1;
 	$.ajax({
 		url: '/index/getItems/',
@@ -23,7 +23,7 @@ function GetItems(page)
 					$.each(result.items, function(index, val)
 					{
 						template = '<tr>';
-						template += '<th scope="row" align="center">' + val + '</th>';
+						template += '<th scope="row" align="center">' + val.id + '</th>';
 						template += '<td align="left">' + val.name + '</td>';
 						template += '<td align="center">' + val.opt + '₽</td>';
 						template += '<td align="center">' + val.rozn + '₽</td>';
