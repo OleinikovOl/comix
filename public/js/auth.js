@@ -4,7 +4,7 @@ function Register()
 		rePasswordRegister = $('#rePasswordRegister'),
 		loginRegister      = $('#loginRegister'),
 		emailRegister      = $('#emailRegister'),
-		secretKey = $('#secretKey');
+		secretKey          = $('#secretKey');
 
 	if(rePasswordRegister.val() !== passwordRegister.val())
 	{
